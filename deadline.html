@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudySync</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
+  />
+
+    <link rel="stylesheet" href="/css/deadline.css" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="top"></div>
+
+      <i class="bx bx-menu" id="btn"></i>
+
+      <ul>
+        <li>
+          <a href="homepage.html">
+            <i class="bx bx-home-alt"></i>
+            <span class="nav-item">Home</span>
+          </a>
+          <span class="tooltip">Home</span>
+        </li>
+        <li>
+          <a href="notes.html">
+            <i class="bx bx-edit"></i>
+            <span class="nav-item">Notes</span>
+          </a>
+          <span class="tooltip">Notes</span>
+        </li>
+        <li>
+          <a href="deadline.html">
+            <i class="bx bxs-time"></i>
+            <span class="nav-item">Deadlines</span>
+          </a>
+          <span class="tooltip">Deadlines</span>
+        </li>
+        <li>
+          <a href="taskboard.html">
+            <i class="bx bx-task"></i>
+            <span class="nav-item">TaskBoard</span>
+          </a>
+          <span class="tooltip">TaskBoard</span>
+        </li>
+        <li>
+          <a href="/logout">
+            <i class="bx bx-log-out"></i>
+            <span class="nav-item">LogOut</span>
+          </a>
+          <span class="tooltip">LogOut</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="container">
+        <div class="deadlineHeading">
+          <h1>Deadlines</h1>
+        </div>
+
+        <div class="deadlineAdd">
+          <form
+            id="taskForm"
+            class="deadlineForm"
+            onsubmit="addDeadline(event)"
+          >
+            <div class="row">
+              <input
+                type="text"
+                id="title"
+                class="deadlineInput"
+                name="title"
+                placeholder="Deadline Title"
+              />
+              <input
+                type="text"
+                id="description"
+                class="deadlineInput"
+                name="description"
+                placeholder="Deadline Description"
+              />
+            </div>
+            <div class="row">
+              <div>
+                <label for="setDate">Set Date :</label>
+                <div class="datepicker-container">
+                  <input
+                    type="date"
+                    id="selectedDate"
+                    name="selectedDate"
+                    style="display: none"
+                  />
+                  <i class="bx bx-time clock-icon" id="clockIcon"></i>
+                  <div class="datepicker" id="datepicker">
+                    <input type="date" id="dateInput" />
+                  </div>
+                </div>
+              </div>
+              <div class="select-container">
+                <select id="prioritySelect" name="priority">
+                  <option value="" disabled>Priority</option>
+                  <option value="One">High </option>
+                  <option value="Two">Medium</option>
+                  <option value="Three">Low</option>
+                </select>
+              </div>
+             
+            </div>
+            <div class="deadlineBtn">
+              <button class="deadlineButton" type="submit">
+                Add Deadline
+              </button>
+            </div>
+          </form>
+        </div>
+        <ul class="deadlineList" id="deadlineList"></ul>
+      </div>
+    </div>
+
+    <script>
+      let btn = document.querySelector("#btn");
+      let sidebar = document.querySelector(".sidebar");
+
+      btn.onclick = function () {
+        sidebar.classList.toggle("active");
+      };
+
+      const clockIcon = document.querySelector("#clockIcon");
+      const datepickerContainer = document.querySelector(
+        ".datepicker-container"
+      );
+      const datepicker = document.getElementById("datepicker");
+      const dateInput = document.getElementById("dateInput");
+      const selectedDate = document.getElementById("selectedDate");
+
+      clockIcon.addEventListener("click", () => {
+        datepicker.style.display =
+          datepicker.style.display === "block" ? "none" : "block";
+      });
+
+      dateInput.addEventListener("change", () => {
+        selectedDate.textContent = dateInput.value;
+        datepicker.style.display = "none";
+      });
+
+      function addDeadline(event) {
+        event.preventDefault();
+
+        const title = document.getElementById("title").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const selectedDate = document.getElementById("dateInput").value.trim();
+        const prioritySelect = document.getElementById("prioritySelect").value;
+
+        if (!title || !description || !selectedDate) {
+          let emptyField = "";
+          if (!title) {
+            emptyField = "Title";
+          } else if (!description) {
+            emptyField = "Description";
+          } else {
+            emptyField = "Date";
+          }
+          alert(`Please add ${emptyField}`);
+          return; // Exit the function
+        }
+        console.log("Title:", title);
+        console.log("Description:", description);
+        console.log("Selected Date:", selectedDate);
+
+        // Reset the form
+        const deadlineData = {
+          title: title,
+          description: description,
+          selectedDate: selectedDate,
+          priority:prioritySelect
+        };
+        fetch("/createDeadline", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(deadlineData),
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Failed to create task");
+            }
+          })
+          .then((data) => {
+            appendList(title, description, data, selectedDate,prioritySelect);
+          });
+        document.getElementById("taskForm").reset();
+      }
+
+      function appendList(title, description, id, date,priority) {
+        const todoList = document.getElementById("deadlineList");
+        const newTodo = document.createElement("li");
+        const details = document.createElement("div")
+        details.classList.add("details")
+        let spanOne = document.createElement("span");
+        spanOne.textContent = title;
+        spanOne.style.marginLeft = "30px";
+        let spanTwo = document.createElement("span");
+        spanTwo.textContent = calculateDueStatus(date);
+
+        let appendIcons = document.createElement("div")
+        appendIcons.classList.add("actions")
+        let editIcon = document.createElement("i")
+        editIcon.classList.add("bx","bx-edit-alt")
+        editIcon.addEventListener( 'click', ()=>{ newTodo.remove(); editField(title,description,date,priority,id)})
+
+        
+        let deleteIcon = document.createElement("i")
+        deleteIcon.classList.add("bx","bx-trash")
+        deleteIcon.addEventListener( 'click', ()=>{ newTodo.remove(); deleteField(id)})
+
+        appendIcons.appendChild(editIcon)
+        appendIcons.appendChild(deleteIcon)
+       
+        details.appendChild(spanOne);
+        details.appendChild(spanTwo);
+        newTodo.appendChild(details);
+        newTodo.appendChild(appendIcons);
+        todoList.appendChild(newTodo);
+      }
+
+      function calculateDueStatus(selectedDate) {
+        const currentDate = new Date();
+
+        const selectedDateObj = new Date(selectedDate);
+
+        const differenceInMs =
+          selectedDateObj.getTime() - currentDate.getTime();
+
+        const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+
+        if (differenceInDays < 0) {
+          return "Overdue";
+        } else {
+          return `${Math.floor(differenceInDays)} Days`
+        }
+      }
+
+      function editField(tTitle, tDescription, tDate,tPriority,id){
+        document.getElementById("title").value = tTitle
+        document.getElementById("description").value=tDescription;
+        document.getElementById("dateInput").value = tDate
+        document.getElementById("prioritySelect").value = tPriority
+        deleteField(id)
+      }
+
+      function deleteField(id){
+        fetch(`/deadline/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log(response.json())
+            } else {
+              throw new Error("Failed to delete task");
+            }
+          })
+      }
+
+      window.onload = function () {
+        fetch("/deadline")
+          .then((response) => response.json())
+          .then((deadlines) => {
+            deadlines.map((t) =>
+              appendList(t.title, t.description, t._id, t.selectedDate,t.priority)
+            );
+          })
+          .catch((error) => {
+            console.error("Error fetching tasks:", error);
+          });
+      };
+    </script>
+  </body>
+</html>

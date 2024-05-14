@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySync</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/css/homepage.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="top"></div>
+    
+
+    <i class="bx bx-menu" id="btn"></i>
+
+    <ul>
+        <li>
+            <a href="homepage.html">
+                <i class='bx bx-home-alt'></i>
+                <span class="nav-item">Home</span>
+            </a>
+            <span class="tooltip">Home</span>
+        </li>
+        <li>
+            <a href="notes.html">
+                <i class='bx bx-edit'></i>
+                <span class="nav-item">Notes</span>
+            </a>
+            <span class="tooltip">Notes</span>
+        </li>
+        <li>
+            <a href="deadline.html">
+                <i class='bx bxs-time'></i>
+                <span class="nav-item">Deadlines</span>
+            </a>
+            <span class="tooltip">Deadlines</span>
+        </li>
+        <li>
+            <a href="taskboard.html">
+                <i class='bx bx-task'></i>
+                <span class="nav-item">TaskBoard</span>
+            </a>
+            <span class="tooltip">TaskBoard</span>
+        </li>
+        <li>
+            <a href="/logout">
+                <i class='bx bx-log-out'></i>
+                <span class="nav-item">LogOut</span>
+            </a>
+            <span class="tooltip">LogOut</span>
+        </li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <div class="dashboardHeading">
+            <h1>StudySync</h1>
+          </div>
+        <div class="dashboardContent">
+        <div class="rectangle UpcomingDeadlines">
+         <p style="width: 30%;"> Upcoming Deadlines <br/></p>   
+         <div class="contentRect" id="deadline">
+
+         </div>
+        </div>
+        <div class="rectangle Tasks">
+            <p style="width: 30%;">Tasks</p>
+            
+            <div class="contentRect" id="tasks">
+               
+
+            </div>
+        </div>
+        <div class="rectangle Notes">
+            <p style="width: 30%;">Notes</p>
+            <div class="contentRect" id="notes">
+
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let btn = document.querySelector('#btn');
+    let sidebar = document.querySelector('.sidebar');
+
+    btn.onclick = function () {
+        sidebar.classList.toggle('active');
+    };
+
+     function appendList(title,desc,id,redirect) {
+        const cnt = document.getElementById(id); 
+        let link = document.createElement("a")
+        let elem  = document.createElement("div")
+        elem.classList.add("contentdesc")
+        let p1 = document.createElement("p");
+        p1.textContent = title
+        let p2 =document.createElement("p");
+        p2.textContent = desc
+        elem.appendChild(p1)
+        elem.appendChild(p2)
+        link.appendChild(elem)
+        link.href = redirect
+        link.style.textDecoration = 'none'
+        link.style.color = 'black'
+        cnt.appendChild(link)
+    
+    }
+
+    function calculateDueStatus(selectedDate) {
+        const currentDate = new Date();
+
+        const selectedDateObj = new Date(selectedDate);
+
+        const differenceInMs =
+          selectedDateObj.getTime() - currentDate.getTime();
+
+        const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+
+        if (differenceInDays < 0) {
+          return "Overdue";
+        } else {
+          return `${Math.floor(differenceInDays)} Days`
+        }
+      }
+
+    window.onload = function () {
+        fetch("/dashboard")
+          .then((response) => response.json())
+          .then((dashboardData) => {
+            console.log("dashboard data",dashboardData)
+            let tasks = dashboardData.pendingTasks;
+            let recentDeadlines =  dashboardData.recentDeadlines
+            let recentNotes = dashboardData.recentNotes
+            tasks.map((task)=>{
+                let dueStatus = calculateDueStatus(task.dueDate);
+                let priority = `Priority ${task.priority} (${dueStatus})`
+                appendList(task.title,priority,"tasks","taskboard.html")
+            })
+            recentDeadlines.map((deadline)=>{
+                let dueStatus = calculateDueStatus(deadline.selectedDate);
+                appendList(deadline.title,dueStatus,"deadline","deadline.html")
+            })
+            recentNotes.map((note)=>(
+                appendList(note.title,"","notes","notes.html")
+            ))
+          })
+          .catch((error) => {
+            console.error("Error fetching tasks:", error);
+          });
+      };
+</script>
+</body>
+</html>

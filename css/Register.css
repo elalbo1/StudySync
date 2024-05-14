@@ -1,0 +1,146 @@
+
+*,
+body,
+div,
+h1,
+h2,
+h3,
+p,
+span,
+button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(0deg, rgba(35, 63, 94, 0.86) 0%, #CBCBCB 52.74%); 
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); 
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 430px;
+    width: 100%;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.container form {
+    padding: 2rem;
+}
+
+.container h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.container label {
+    font-size: 17px;
+    color: #233F5E;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.container input {
+    height: 60px;
+    width: 100%;
+    padding: 0 15px;
+    font-size: 17px;
+    margin-bottom: 1.3rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+}
+
+.container input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container button {
+    color: #fff;
+    background: linear-gradient(90deg, #09203F 0%, #233F5E 41%, #537895 100%);
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 1.7rem;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    transition: 0.4s;
+}
+
+.container button:hover {
+    background: #09203F;
+}
+
+/* UilCalender */
+.UilCalender {
+  width: 134px;
+  height: 140px;
+  left: 538px;
+  top: 1111px;
+  position: absolute;
+}
+
+/* Vector */
+.Vector {
+  width: 111.67px;
+  height: 116.67px;
+  left: 11.17px;
+  top: 11.67px;
+  position: absolute;
+  background: black;
+}
+
+/* MingcuteTask2Line */
+.MingcuteTask2Line {
+  width: 139px;
+  height: 145px;
+  left: 997px;
+  top: 1094px;
+  position: absolute;
+}
+
+/* Rectangle5 */
+.Rectangle5 {
+  width: 100%;
+  height: 78px;
+  position: absolute;
+  background: #D9D9D9;
+}
+
+/* Studysync */
+.Studysync {
+  width: 235px;
+  height: 64px;
+  left: 35px;
+  top: 20px;
+  position: absolute;
+  color: #09203F;
+  font-size: 30px;
+  font-weight: 1000;
+  line-height: 36.43px;
+  word-wrap: break-word;
+}
+
+.signupheaders{
+  color: #09203F;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 20.43px;
+  word-wrap: break-word;
+}

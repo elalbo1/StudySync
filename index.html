@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap">
+    <title>StudySync</title>
+</head>
+<body>
+    <div class="Desktop1">
+        <div class="UilCalender">
+            <div class="Vector"></div>
+        </div>
+        <div class="MingcuteTask2Line">
+            <div class="Group">
+                <div class="Vector"></div>
+                <div class="Vector"></div>
+            </div>
+        </div>
+        <div class="Rectangle5"></div>
+        <div class="Studysync">StudySync</div>
+        <div class="Rectangle2"></div>
+        <div class="Rectangle3"></div>
+        <div class="Vector"></div>
+
+        <!-- "Log In" button with an id -->
+        <button class="LogIn" id="loginButton">Log In</button>
+
+        <div class="StudySyncUnleashYourPotentialMasterYourStudies">
+            <span>StudySync<br/></span>
+            <span>Unleash your Potential, Master your Studies.</span>
+        </div>
+
+        <button class="Register" id="signuplink">Register</button>
+      
+    </div>
+
+    <!-- JavaScript code to handle the "Log In" button click -->
+    <script>
+        document.getElementById('loginButton').addEventListener('click', function() {
+            window.location.href = '/login'; // Changed from '/login.html' to '/login'
+        });
+    
+        document.getElementById('signuplink').addEventListener('click', function() {
+            window.location.href = '/Register'; // Changed from '/register.html' to '/Register'
+        });
+    </script>
+    
+    
+</body>
+</html>

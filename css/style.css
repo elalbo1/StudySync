@@ -1,0 +1,215 @@
+*,
+body,
+div,
+h1,
+h2,
+h3,
+p,
+span,
+button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+/* Desktop1 */
+.Desktop1 {
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(0deg, rgba(35, 63, 94, 0.86) 0%, #CBCBCB 52.74%); /* Updated background gradient */
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); /* Added box-shadow */
+    backdrop-filter: blur(4px);
+    overflow: hidden;
+}
+
+
+/* UilCalender */
+.UilCalender {
+    width: 134px;
+    height: 140px;
+    left: 538px;
+    top: 1111px;
+    position: absolute;
+}
+
+/* Vector */
+.Vector {
+    width: 111.67px;
+    height: 116.67px;
+    left: 11.17px;
+    top: 11.67px;
+    position: absolute;
+    background: black;
+}
+
+/* MingcuteTask2Line */
+.MingcuteTask2Line {
+    width: 139px;
+    height: 145px;
+    left: 997px;
+    top: 1094px;
+    position: absolute;
+}
+
+/* Group */
+.Group {
+    width: 139px;
+    height: 145px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+}
+
+/* Rectangle5 */
+.Rectangle5 {
+    width: 100%;
+    height: 78px;
+    position: absolute;
+    background: #D9D9D9;
+}
+
+/* Studysync */
+.Studysync {
+    width: 235px;
+    height: 64px;
+    left: 35px;
+    top: 20px;
+    position: absolute;
+    color: #09203F;
+    font-size: 30px;
+    font-weight: 1000;
+    line-height: 36.43px;
+    word-wrap: break-word;
+}
+
+/* Vector */
+.Vector {
+    width: 18px;
+    height: 11.12px;
+    left: 1393px;
+    top: 17.91px;
+    position: absolute;
+    background: #E0E0E0;
+}
+
+/* LogIn */
+.LogIn {
+    width: 73px;
+    height: 34px;
+    right: 35px;
+    top: 25px;
+    position: absolute;
+    background: linear-gradient(90deg, #09203F 0%, #233F5E 41%, #537895 100%);
+    border: none;
+    border-radius: 10px;
+    color: #CBCBCB;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 25px;
+    cursor: pointer;
+}
+
+/* StudySyncUnleashYourPotentialMasterYourStudies */
+.StudySyncUnleashYourPotentialMasterYourStudies {
+    width: 576px;
+    height: 197px;
+    left: 30%;
+    top: 316px;
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: 48px;
+    line-height: 58.29px;
+    word-wrap: break-word;
+}
+
+/* Styling the first span in StudySyncUnleashYourPotentialMasterYourStudies */
+.StudySyncUnleashYourPotentialMasterYourStudies span:first-child {
+    color: #233F5E;
+    font-weight: 1000;
+}
+
+/* Styling the second span in StudySyncUnleashYourPotentialMasterYourStudies */
+.StudySyncUnleashYourPotentialMasterYourStudies span:last-child {
+    color: black;
+    font-weight: 1000;
+}
+
+/* Register */
+.Register {
+    width: 120px;
+    height: 52px;
+    right: 635px;
+    top: 436px;
+    position: absolute;
+    background: linear-gradient(90deg, #09203F 0%, #233F5E 41%, #537895 100%);
+    border: none;
+    border-radius: 10px;
+    color: #CBCBCB;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+/* Rectangle6 */
+.Rectangle6 {
+    width: 431px;
+    height: 627px;
+    left: 30px;
+    top: 1073px;
+    position: absolute;
+    background: linear-gradient(180deg, rgba(35.41, 63.41, 93.69, 0.17) 0%, rgba(35.41, 63.41, 93.69, 0.86) 100%);
+    border-radius: 10px;
+}
+
+/* Rectangle7 */
+.Rectangle7 {
+    width: 431px;
+    height: 627px;
+    left: 504px;
+    top: 1073px;
+    position: absolute;
+    background: linear-gradient(180deg, rgba(35.41, 63.41, 93.69, 0.17) 0%, rgba(35.41, 63.41, 93.69, 0.86) 100%);
+    border-radius: 10px;
+}
+
+/* Rectangle8 */
+.Rectangle8 {
+    width: 431px;
+    height: 627px;
+    left: 968px;
+    top: 1073px;
+    position: absolute;
+    background: linear-gradient(180deg, rgba(35.41, 63.41, 93.69, 0.17) 0%, rgba(35.41, 63.41, 93.69, 0.86) 100%);
+    border-radius: 10px;
+}
+
+
+
+
+
+/* Rectangle9 */
+.Rectangle9 {
+    width: 1159px;
+    height: 160px;
+    left: 130px;
+    top: 879px;
+    position: absolute;
+}
+
+/* IcTwotoneEditNote */
+.IcTwotoneEditNote {
+    width: 159px;
+    height: 152px;
+    left: 73px;
+    top: 1095px;
+    position: absolute;
+}
+
+
+
+
+

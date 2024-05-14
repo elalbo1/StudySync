@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySync</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.3/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.3/dist/quill.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
+  />
+    <link rel="stylesheet" href="/css/notes.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="top"></div>
+    
+
+    <i class="bx bx-menu" id="btn"></i>
+
+    <ul>
+        <li>
+            <a href="homepage.html">
+                <i class='bx bx-home-alt'></i>
+                <span class="nav-item">Home</span>
+            </a>
+            <span class="tooltip">Home</span>
+        </li>
+        <li>
+            <a href="notes.html">
+                <i class='bx bx-edit'></i>
+                <span class="nav-item">Notes</span>
+            </a>
+            <span class="tooltip">Notes</span>
+        </li>
+        <li>
+            <a href="deadline.html">
+                <i class='bx bxs-time'></i>
+                <span class="nav-item">Deadlines</span>
+            </a>
+            <span class="tooltip">Deadlines</span>
+        </li>
+        <li>
+            <a href="taskboard.html">
+                <i class='bx bx-task'></i>
+                <span class="nav-item">TaskBoard</span>
+            </a>
+            <span class="tooltip">TaskBoard</span>
+        </li>
+        <li>
+            <a href="/logout">
+                <i class='bx bx-log-out'></i>
+                <span class="nav-item">LogOut</span>
+            </a>
+            <span class="tooltip">LogOut</span>
+        </li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <div class="notesHeading">
+            <h1>Cornell notes</h1>
+          </div>
+ 
+
+
+    </div>
+    <div class="notesform">
+        <input
+        type="text"
+        id="title"
+        class="notesInput"
+        name="title"
+        placeholder="Title"
+      />
+   
+  <div id="toolbar">
+    <span class="ql-formats">
+        <button class="ql-bold"></button>
+        <button class="ql-italic"></button>
+        <button class="ql-underline"></button>
+        <button class="ql-strike"></button>
+    </span>
+    <span class="ql-formats">
+        <select class="ql-align"></select>
+    </span>
+    <span class="ql-format-group">
+      <select title="Size" class="ql-size">
+        <option value="small">Small</option>
+        <option value="normal">Normal</option>
+        <option value="large">Large</option>
+        <option value="huge">Huge</option>
+      </select>
+    </span>
+    <span class="ql-formats">
+    <a href="notes.html" class="custom-button">notes +</a>
+    </span>
+</div>
+   <div class="editors">
+    <div id="cueEditor">
+       
+      </div> 
+      <div class="row">
+      <div id="notesEditor">
+       
+      </div> 
+      <div id="summaryEditor">
+       
+      </div>
+      </div> 
+   </div>
+      <div class="saveBtn">
+        <button class="notesBtn"  type="button" onclick="saveNotes()">
+          Save
+        </button>
+
+</div>
+<ul class="notesList" id="notesList"></ul>
+    </div>
+
+
+
+<script>
+    let btn = document.querySelector('#btn');
+    let sidebar = document.querySelector('.sidebar');
+
+    btn.onclick = function () {
+        sidebar.classList.toggle('active');
+    };
+
+ 
+    const cueQuill = new Quill('#cueEditor', {
+    theme: 'snow',
+    placeholder : 'Cues',
+    modules: {
+      toolbar: '#toolbar',
+    },
+  });
+
+  const notesQuill = new Quill('#notesEditor', {
+    theme: 'snow',
+    placeholder : 'Notes',
+    modules: {
+      toolbar: '#toolbar',
+    },
+  });
+
+  const summaryQuill = new Quill('#summaryEditor', {
+    theme: 'snow',
+    placeholder : 'Summary',
+    modules: {
+      toolbar: '#toolbar',
+    },
+  });
+//   quill.clipboard.dangerouslyPasteHTML('<p><strong>this</strong></p>')
+
+  function saveNotes() {
+      let titleInput = document.getElementById('title').value.trim();
+      if (!titleInput) {
+        alert("Please enter a title for your notes.");
+        return; 
+      }
+      let cueContent = cueQuill.getSemanticHTML(0)
+      let notesContent = notesQuill.getSemanticHTML(0)
+      let summaryContent = summaryQuill.getSemanticHTML(0)
+
+      const notesData = {
+         title: titleInput,
+          cueContent,
+          notesContent,
+          summaryContent
+        };
+        fetch("/createCornellNote", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(notesData),
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Failed to create task");
+            }
+          })
+          .then((data) => {
+            appendList(titleInput, cueContent,notesContent,summaryContent, data);
+          });
+          cueQuill.setText('');
+          notesQuill.setText('')
+          summaryQuill.setText('')
+    }
+
+    function appendList(title, cueContent,notesContent,summaryContent, id) {
+        const todoList = document.getElementById("notesList");
+        const newTodo = document.createElement("li");
+        const details = document.createElement("div")
+        details.classList.add("details")
+        let spanOne = document.createElement("span");
+        spanOne.textContent = title;
+        spanOne.style.marginLeft = "30px";
+        let selectOption = document.createElement("select");
+    selectOption.innerHTML = `
+        <option value="cue">Cue (text to speech)</option>
+        <option value="notes">Notes (text to speech)</option>
+        <option value="summary">Summary (text to speech)</option>
+    `;
+    selectOption.style.marginLeft = "10px";
+    selectOption.style.padding = '5px';
+    selectOption.style.border = '1px solid #ccc';
+    selectOption.style.borderRadius = '5px';
+    selectOption.style.outline = 'none';
+
+    let speakBtn = document.createElement("button");
+    let icon = document.createElement("i")
+    icon.classList.add("bx", "bx-microphone");
+    speakBtn.addEventListener("click", function() {
+        let speech = new SpeechSynthesisUtterance();
+        let selectedContent;
+        switch (selectOption.value) {
+            case 'cue':
+                selectedContent = cueContent;
+                break;
+            case 'notes':
+                selectedContent = notesContent;
+                break;
+            case 'summary':
+                selectedContent = summaryContent;
+                break;
+            default:
+                selectedContent = '';
+                break;
+        }
+        speech.text = htmlToText(selectedContent);
+        window.speechSynthesis.speak(speech);
+    });
+        // Mark todo as completed when clicked
+        speakBtn.classList.add("speakBtn")
+        speakBtn.appendChild(icon)
+        details.appendChild(spanOne);
+        details.appendChild(selectOption);
+        details.appendChild(speakBtn);
+
+        let appendIcons = document.createElement("div")
+        appendIcons.classList.add("actions")
+        let editIcon = document.createElement("i")
+        editIcon.classList.add("bx","bx-edit-alt")
+        editIcon.addEventListener( 'click', ()=>{ newTodo.remove(); editField(title,cueContent,notesContent,summaryContent,id)} )
+
+        
+        let deleteIcon = document.createElement("i")
+        deleteIcon.classList.add("bx","bx-trash")
+        deleteIcon.addEventListener( 'click', ()=>{ newTodo.remove(); deleteField(id)})
+
+        appendIcons.appendChild(editIcon)
+        appendIcons.appendChild(deleteIcon)
+        newTodo.appendChild(details)
+        newTodo.appendChild(appendIcons)
+        todoList.appendChild(newTodo);
+      }
+
+      window.onload = function () {
+        fetch("/cornellNotes")
+          .then((response) => response.json())
+          .then((deadlines) => {
+            deadlines.map((t) =>
+              appendList(t.title,t.cueContent,t.notesContent,t.summaryContent,t._id)
+            );
+          })
+          .catch((error) => {
+            console.error("Error fetching tasks:", error);
+          });
+      };
+
+      function htmlToText(html) {
+      let tempElement = document.createElement("div");
+      tempElement.innerHTML = html;
+      let text = tempElement.textContent || tempElement.innerText;
+      tempElement.remove();
+      return text;
+      }
+
+      function deleteField(id){
+        fetch(`/deletecornellNote/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log(response.json())
+            } else {
+              throw new Error("Failed to delete task");
+            }
+          })
+      }
+
+      function editField(title,cueContent,notesContent,summaryContent,id) {
+        document.getElementById('title').value = title;
+        console.log(cueContent,notesContent,summaryContent)
+        cueQuill.clipboard.dangerouslyPasteHTML(cueContent)
+        notesQuill.clipboard.dangerouslyPasteHTML(notesContent)
+        summaryQuill.clipboard.dangerouslyPasteHTML(summaryContent)
+        deleteField(id)
+      }
+</script>
+</body>
+</html>

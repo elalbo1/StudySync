@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/Register.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"> <!-- Added Boxicons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap">
+    <title>Register</title>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="Desktop1">
+        <div class="UilCalender">
+            <div class="Vector"></div>
+        </div>
+        <div class="MingcuteTask2Line">
+            <div class="Group">
+            </div>
+        </div>
+        <div class="Rectangle5"></div>
+        <div class="Studysync">StudySync</div>
+    </div>
+
+    <div class="container Desktop1"> 
+        <form action="/Register" method="POST">
+            <h2>Register</h2>
+            <label for="username" class="signupheaders">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email" class="signupheaders">Email:</label> 
+            <input type="email" id="email" name="email" required>
+
+            <label for="password" class="signupheaders">Password:</label> 
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="button"><i class='bx bx-user-plus'></i> Register</button> 
+        </form>
+    </div>
+    
+</body>
+</html>
